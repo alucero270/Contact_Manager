@@ -13,6 +13,8 @@ use of different data types.
 #include <limits>
 #include <string>
 #include <algorithm>
+#include <functional>
+
 
 using std::cout;
 using std::cin;
@@ -32,57 +34,27 @@ struct Contact
 	bool isActive; //(whether the contact is active or inactive)
 };
 
-// Helper function to validate input
-template <typename T>
-T getInput(const string& prompt) {
-	T value;
-	cout << prompt;
-	while (!(cin >> value)) {
-		cout << "Invalid input. Please try again: ";
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	}
-	cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear input buffer
-	return value;
-}
+#include <functional>
 
-// Function to validate gender input
-char getGenderInput(const std::string& prompt) {
-	char gender;
-	std::cout << prompt;
+// Helper function to validate input with an optional validator
+template <typename T>
+T getInput(const std::string& prompt, const std::function<bool(T)>& validator = [](T) { return true; }, const std::string& errorMsg = "Invalid input. Please try again: ") {
+	T value;
 	while (true) {
-		std::cin >> gender;
-		gender = toupper(gender); // Make case insensitive
-		if (gender == 'M' || gender == 'F') {
-			break;
+		std::cout << prompt;
+		if (std::cin >> value && validator(value)) {
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			return value;
 		}
 		else {
-			std::cout << "Invalid input. Please enter 'M' or 'F': ";
+			std::cout << errorMsg;
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}
 	}
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear input buffer
-	return gender;
 }
 
-// Function to validate name input
-std::string getNameInput(const std::string& prompt) {
-	std::string name;
-	std::cout << prompt;
-	while (true) {
-		std::getline(std::cin, name);
-		if (!name.empty() && std::all_of(name.begin(), name.end(), [](char c) { return isalpha(c) || isspace(c); })) {
-			break;
-		}
-		else {
-			std::cout << "Invalid input. Please enter a valid name: ";
-		}
-	}
-	return name;
-}
-
-// Updated addContact function
+// addContact function
 void addContact(Contact contacts[], int& size) {
 	
 	Contact newContact;
@@ -93,9 +65,22 @@ void addContact(Contact contacts[], int& size) {
 	}
 
 	newContact.id = getInput<int>("Enter ID: ");
-	newContact.name = getNameInput("Enter Name: ");
+	newContact.name = getInput<std::string>(
+		"Enter Name: ",
+		[](const std::string& name) {
+			return !name.empty() && std::all_of(name.begin(), name.end(), [](char c) { return isalpha(c) || isspace(c); });
+		},
+		"Invalid input. Please enter a valid name: "
+	);
 	newContact.age = getInput<unsigned int>("Enter Age: ");
-	newContact.gender = getGenderInput("Enter Gender (M/F): ");
+	newContact.gender = getInput<char>(
+		"Enter Gender (M/F): ",
+		[](char gender) {
+			gender = toupper(gender);
+			return gender == 'M' || gender == 'F';
+		},
+		"Invalid input. Please enter 'M' or 'F': "
+	);
 	newContact.balance = getInput<float>("Enter Balance: ");
 	newContact.isActive = true;
 
@@ -185,6 +170,9 @@ int main()
 				cout << "displayContacts";
 				return 0;
 			case 3:
+				int id;
+				cout << "Enter Contact ID to search: ";
+				cin >> id;
 				cout << "searchContactById";
 				return 0;
 			case 4:
