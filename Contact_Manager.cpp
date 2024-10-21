@@ -10,44 +10,108 @@ use of different data types.
 
 #include <iostream>
 #include <iomanip>
+#include <limits>
+#include <string>
+#include <algorithm>
 
 using std::cout;
 using std::cin;
 using std::endl;
+using std::string;
 using std::array;
+using std::numeric_limits;
+using std::streamsize;
 
 struct Contact
 {
 	int id; //(unique ID for each contact)
-	std::string name; //(contact's name)
+	string name; //(contact's name)
 	unsigned int age; //(contact's age, ensuring it is non-negative)
 	char gender; //('M' for Male, 'F' for Female, etc.)
 	float balance; //(contact's balance with decimal values)
 	bool isActive; //(whether the contact is active or inactive)
 };
 
-/*- Prompt the user to input details for a new contact and add it to the array.*/
-void addContact(Contact contacts[], int& size) 
-{
-	/*
-		Enter ID: 101
-		Enter Name: Alex
-		Enter Age: 30
-		Enter Gender (M/F): M
-		Enter Balance: 100.50
-		Contact added successfully!
-		
-	*/
+// Helper function to validate input
+template <typename T>
+T getInput(const string& prompt) {
+	T value;
+	cout << prompt;
+	while (!(cin >> value)) {
+		cout << "Invalid input. Please try again: ";
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	}
+	cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear input buffer
+	return value;
 }
 
+// Function to validate gender input
+char getGenderInput(const std::string& prompt) {
+	char gender;
+	std::cout << prompt;
+	while (true) {
+		std::cin >> gender;
+		gender = toupper(gender); // Make case insensitive
+		if (gender == 'M' || gender == 'F') {
+			break;
+		}
+		else {
+			std::cout << "Invalid input. Please enter 'M' or 'F': ";
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		}
+	}
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear input buffer
+	return gender;
+}
+
+// Function to validate name input
+std::string getNameInput(const std::string& prompt) {
+	std::string name;
+	std::cout << prompt;
+	while (true) {
+		std::getline(std::cin, name);
+		if (!name.empty() && std::all_of(name.begin(), name.end(), [](char c) { return isalpha(c) || isspace(c); })) {
+			break;
+		}
+		else {
+			std::cout << "Invalid input. Please enter a valid name: ";
+		}
+	}
+	return name;
+}
+
+// Updated addContact function
+void addContact(Contact contacts[], int& size) {
+	
+	Contact newContact;
+
+	if (size >= 100) {
+		std::cout << "Contact list is full. Delete unused contacts before continuing." << std::endl;
+		return;
+	}
+
+	newContact.id = getInput<int>("Enter ID: ");
+	newContact.name = getNameInput("Enter Name: ");
+	newContact.age = getInput<unsigned int>("Enter Age: ");
+	newContact.gender = getGenderInput("Enter Gender (M/F): ");
+	newContact.balance = getInput<float>("Enter Balance: ");
+	newContact.isActive = true;
+
+	contacts[size++] = newContact;
+	std::cout << "Contact added successfully!" << std::endl;
+}
+
+
 /*- Display details of all contacts in the array.*/
-void displayContacts(const Contact contacts[], int size) 
+void displayContacts(const Contact contacts[], int size)
 {
 	/* list all contacts*/
 }
 
 /*- Search for a contact by their ID and display the details if found.*/
-void searchContactById(const Contact contacts[], int size, int id) 
+void searchContactById(const Contact contacts[], int size, int id)
 {
 	/*
 		Enter your choice: 2
@@ -56,13 +120,13 @@ void searchContactById(const Contact contacts[], int size, int id)
 }
 
 /*- Update a contact’s balance using the provided value.*/
-void updateBalance(Contact& contact, float newBalance) 
+void updateBalance(Contact& contact, float newBalance)
 {
 
 }
 
 /*- Change a contact’s isActive status to false.*/
-void deactivateContact(Contact& contact) 
+void deactivateContact(Contact& contact)
 {
 
 }
@@ -78,11 +142,13 @@ int main()
 	Implement main to offer a simple menu allowing the user to:
 		- Use appropriate input/output prompts and error checking to ensure valid entries.
 	*/
+	Contact contacts[100];
+	int size = 0;
 	int userSelection;
 
 	// ANSI escape codes for coloring (works in most Unix-based terminals)
-	const std::string reset = "\033[0m";
-	const std::string cyan = "\033[36m";
+	const string reset = "\033[0m";
+	const string cyan = "\033[36m";
 
 	cout << cyan; // Set text color to cyan
 	cout << "****************************************************" << endl;
@@ -111,30 +177,29 @@ int main()
 			cout << "Please enter a valid selection:" << endl;
 			cin >> userSelection;
 		}
-		switch (userSelection)
-		{
-		case 1:
-			cout << "addContact";
-			return 0;
-		case 2:
-			cout << "displayContacts";
-			return 0;
-		case 3:
-			cout << "searchContactById";
-			return 0;
-		case 4:
-			cout << "updateBalance";
-			return 0;
-		case 5:
-			cout << "deactivateContact";
-			return 0;
-		case 0:
-			cout << "Have a nice day!";
-		default:
-			return 0;
+		switch (userSelection) {
+			case 1:
+				addContact(contacts, size);
+				return 0;
+			case 2:
+				cout << "displayContacts";
+				return 0;
+			case 3:
+				cout << "searchContactById";
+				return 0;
+			case 4:
+				cout << "updateBalance";
+				return 0;
+			case 5:
+				cout << "deactivateContact";
+				return 0;
+			case 0:
+				cout << "Have a nice day!";
+			default:
+				return 0;
 		}
 	} while (userSelection != 5);
-	
-	
+
+
 }
 
