@@ -127,7 +127,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Contact_Manager.cpp" />
+    <ClCompile Include="ContactManager.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ContactManager.h" />
+    <ClInclude Include="InputHelper.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="InputHelper.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
