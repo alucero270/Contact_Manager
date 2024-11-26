@@ -1,4 +1,6 @@
 #include "ContactManager.h"
+
+import ContactsModule; 
 /*
     ToDo:
     [] generate uid when contact is created
