@@ -1,5 +1,5 @@
 #include "ContactManager.h"
-#include "InputHelper.h" // For getInput
+#include "InputHelper.h"
 #include <iomanip>
 
 using std::cout;
@@ -15,9 +15,13 @@ void addContact(Contact contacts[], int& size) {
 
     Contact newContact;
     newContact.id = getInput<int>("Enter ID: ");
-    newContact.name = getInput<std::string>("Enter Name: ", [](const std::string& name) { return !name.empty(); }, "Invalid name.");
+    newContact.name = getInput<std::string>("Enter Name: ",
+        [](const std::string& name) { return !name.empty(); },
+        "Invalid name.");
     newContact.age = getInput<unsigned int>("Enter Age: ");
-    newContact.gender = toupper(getInput<char>("Enter Gender (M/F): ", [](char gender) { return gender == 'M' || gender == 'F'; }, "Invalid input."));
+    newContact.gender = toupper(getInput<char>("Enter Gender (M/F): ",
+        [](char gender) { return gender == 'M' || gender == 'F'; },
+        "Invalid input."));
     newContact.balance = getInput<float>("Enter Balance: ");
     newContact.isActive = true;
 

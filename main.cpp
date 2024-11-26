@@ -1,5 +1,10 @@
 #include "ContactManager.h"
-
+/*
+    ToDo:
+    [] generate uid when contact is created
+    [] add update contact functionality
+    []
+*/
 int main() {
     Contact contacts[MAX_CONTACTS];
     int size = 0;
