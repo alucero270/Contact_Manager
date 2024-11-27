@@ -29,13 +29,5 @@
     <ClInclude Include="ContactManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InputHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="InputHelper.cpp">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
 </Project>

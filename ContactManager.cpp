@@ -1,9 +1,7 @@
 import  ContactsModule;
 #include "ContactManager.h"
-#include <iomanip>
 
 using std::cout;
-using std::cin;
 using std::endl;
 
 // Add contact

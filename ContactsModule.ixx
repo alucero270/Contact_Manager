@@ -3,7 +3,6 @@ module;
 #include <iomanip>
 #include <string>
 #include <iostream>
-#include <iostream>
 #include <functional>
 #include <string>
 #include <limits>
@@ -15,7 +14,9 @@ using std::cin;
 using std::endl;
 
 export template <typename T>
-T getInput(const std::string& prompt, const std::function<bool(T)>& validator = [](T) { return true; }, const std::string& errorMsg = "Invalid input. Please try again: ");
+T getInput(const std::string& prompt) {
+    return getInput<T>(prompt, [](T) { return true; }, "Invalid input. Please try again: ");
+}
 
 
 
