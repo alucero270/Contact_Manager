@@ -1,63 +1,222 @@
-# Contact_Manager
-## <a name="commit"></a> Git Commit Guidelines
+Contact Manager
 
-We have very precise rules over how our git commit messages can be formatted.  This leads to **more
-readable messages** that are easy to follow when looking through the **project history**.
+A small console-based C++ application for managing contact records through a menu-driven interface.
 
-The commit message formatting can be added using a typical git workflow.
+This project was built to practice core software engineering concepts in C++, including:
 
-### Commit Message Format
-Each commit message consists of a **header**, a **body** and a **footer**.  The header has a special
-format that includes a **type**, a **scope**, and a **subject**:
+basic data modeling
 
-```
-<type>(<scope>): <subject>
-<BLANK LINE>
-<body>
-<BLANK LINE>
-<footer>
-```
+modular program structure
 
-The **header** is mandatory and the **scope** of the header is optional.
+input validation
 
-Any line of the commit message cannot be longer 100 characters! This allows the message to be easier
-to read on GitHub as well as in various git tools.
+user-driven control flow
 
-### Revert
-If the commit reverts a previous commit, it should begin with `revert: `, followed by the header of the reverted commit. In the body it should say: `This reverts commit <hash>.`, where the hash is the SHA of the commit being reverted.
+separation of interface and implementation
 
-### Type
-Must be one of the following:
 
-* **feat**: A new feature
-* **content**: A change in the content that is visually displayed
-* **refactor**: A code change that neither fixes a bug nor adds a feature
-* **fix**: A bug fix
-* **style**: May meet one of the following criteria:
-    * Changes that were only invloving style sheets (CSS, SASS, LESS, etc)
-    * Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
-* **docs**: Documentation only changes
-* **chore**: Changes to the build process or auxiliary tools and libraries such as documentation
-* **perf**: A code change that improves performance
-* **test**: Adding missing tests
-  generation
+Features
 
-### Scope
-The scope could be anything specifying place of the commit change.
+Add a new contact
 
-### Subject
-The subject contains succinct description of the change:
+Display all saved contacts in a formatted table
 
-* Use the imperative, present tense: "change" not "changed" nor "changes"
-* Don't capitalize first letter
-* No dot (.) at the end
+Search for a contact by ID
 
-### Body
-Just as in the **subject**, use the imperative, present tense.
-The body should include the motivation for the change and contrast this with previous behavior.
+Update a contact's balance
 
-### Footer
-The footer should contain any information about **Breaking Changes** and is also the place to
-reference GitHub issues that this commit **Closes**.
+Deactivate a contact without deleting the record
 
-**Breaking Changes** should start with the words `BREAKING CHANGE:` with a space or two newlines. The rest of the commit message is then used for this.
+Validate user input before accepting values
+
+
+Data Model
+
+Each contact contains the following fields:
+
+id — integer identifier
+
+name — contact name
+
+age — unsigned integer
+
+gender — single-character value (M or F)
+
+balance — floating-point account balance
+
+isActive — status flag indicating whether the contact is active
+
+
+The application stores contacts in a fixed-size in-memory array with a maximum capacity of 100 records.
+
+Project Structure
+
+Contact_Manager/
+├── main.cpp
+├── ContactManager.h
+├── ContactManager.cpp
+├── InputHelper.h
+├── InputHelper.cpp
+├── Contact_Manager.sln
+├── Contact_Manager.vcxproj
+
+File Overview
+
+main.cpp
+Entry point for the application. Initializes the contact array and launches the menu loop.
+
+ContactManager.h
+Defines the Contact struct, max capacity constant, and function declarations.
+
+ContactManager.cpp
+Contains the application’s core logic:
+
+add contact
+
+display contacts
+
+search by ID
+
+update balance
+
+deactivate contact
+
+menu handling
+
+
+InputHelper.h / InputHelper.cpp
+Provides a templated input helper function used to validate user input and retry on invalid entries.
+
+
+How It Works
+
+The program starts by creating an in-memory array of contacts and passing it into a menu-driven command loop.
+
+From the menu, the user can:
+
+1. add a contact
+
+
+2. display all contacts
+
+
+3. search for a contact by ID
+
+
+4. update an existing contact’s balance
+
+
+5. deactivate a contact
+
+
+6. exit the program
+
+
+
+Contacts are stored only for the duration of the program run. There is currently no file or database persistence.
+
+Build and Run
+
+Visual Studio
+
+This project currently uses a Visual Studio solution and project file.
+
+1. Open Contact_Manager.sln in Visual Studio
+
+
+2. Build the solution
+
+
+3. Run the application from the IDE
+
+
+
+Example Workflow
+
+1. Add Contact
+2. Display Contacts
+3. Search Contact by ID
+4. Update Balance
+5. Deactivate Contact
+0. Exit
+
+A typical session might include:
+
+creating a contact
+
+listing all contacts
+
+searching for one by ID
+
+updating the balance
+
+deactivating the contact when no longer needed
+
+
+Design Notes
+
+This project emphasizes a few foundational software engineering ideas:
+
+Separation of concerns
+Core contact-management logic is separated from input handling.
+
+Structured data representation
+Contact information is grouped into a single Contact struct.
+
+Input validation
+A templated helper function is used to centralize and simplify validated console input.
+
+Incremental modularization
+The project is split into headers and implementation files instead of placing all logic in main.cpp.
+
+
+Current Limitations
+
+Uses a fixed-size array instead of a dynamic container
+
+Data is stored in memory only and is lost when the program exits
+
+Contact IDs are manually entered rather than automatically generated
+
+No edit-contact workflow beyond balance updates
+
+No duplicate-ID checking
+
+No automated tests
+
+No cross-platform build configuration yet
+
+
+Planned Improvements
+
+Potential next steps for the project:
+
+Generate unique IDs automatically
+
+Add full contact editing functionality
+
+Prevent duplicate IDs
+
+Replace the fixed-size array with std::vector
+
+Add save/load support using a file format such as CSV or JSON
+
+Add unit tests
+
+Add a CMake build configuration for portability
+
+
+Why This Project
+
+This project was created as a focused C++ exercise to reinforce:
+
+working with structs and arrays
+
+modular design using header and source files
+
+basic CLI application architecture
+
+reusable input validation patterns
+
+
+It also serves as a foundation that can be extended into a more robust contact system with persistence, testing, and modern container-based data management.
