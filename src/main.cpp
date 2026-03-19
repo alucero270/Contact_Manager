@@ -1,4 +1,4 @@
-#include "ContactManager.h"
+#include "../include/ContactManager.h"
 /*
     ToDo:
     [] generate uid when contact is created
@@ -6,8 +6,7 @@
     []
 */
 int main() {
-    Contact contacts[MAX_CONTACTS];
-    int size = 0;
-    contactManagerMenu(contacts, size);
+    ContactBook book;
+    contactManagerMenu(book);
     return 0;
 }
