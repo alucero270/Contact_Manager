@@ -5,9 +5,12 @@
 using std::cout;
 
 // Store Contacts
-void ContactBook::add(const Contact& contact)
+int ContactBook::add(Contact contact)
 {
+    contact.id = nextId_;
     contacts_.push_back(contact);
+    nextId_++;
+    return contact.id;
 }
 
 Contact* ContactBook::findById(int id)
@@ -89,7 +92,6 @@ void contactManagerMenu(ContactBook& book)
         case 1:
             {
                 Contact newContact;
-                newContact.id = getInput<int>("Enter ID: ");
                 newContact.name = getInput<std::string>(
                     "Enter Name: ",
                     [](const std::string& name) { return !name.empty(); },
@@ -104,8 +106,8 @@ void contactManagerMenu(ContactBook& book)
                 newContact.balance = getInput<float>("Enter Balance: ");
                 newContact.isActive = true;
 
-                book.add(newContact);
-                cout << "Contact added successfully!" << '\n';
+                int assignedId = book.add(newContact);
+                cout << "Contact added successfully! ID: " << assignedId << '\n';
             }
             break;
         case 2:
