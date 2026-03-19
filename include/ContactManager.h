@@ -13,9 +13,9 @@ struct Contact {
     bool isActive;
 };
 
-class ContactBook {
+class ContactBook { //contact book owns identity rule
 public:
-    void add(const Contact& contact);
+    int add(Contact contact);
     Contact* findById(int id);
     const Contact* findById(int id) const;
     const std::vector<Contact>& all() const;
@@ -23,7 +23,7 @@ public:
     bool deactivate(int id);
 private:
     std::vector<Contact> contacts_;
-    
+    int nextId_ = 1;
 };
 
 // Function declarations
