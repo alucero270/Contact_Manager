@@ -9,5 +9,5 @@
 template <typename T>
 T getInput(const std::string& prompt, const std::function<bool(T)>& validator = [](T) { return true; }, const std::string& errorMsg = "Invalid input. Please try again: ");
 
-#include "InputHelper.cpp" // Template implementation
+#include "../src/InputHelper.cpp" // Template implementation
 #endif
