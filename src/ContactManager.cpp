@@ -7,10 +7,11 @@ using std::cout;
 // Store Contacts
 int ContactBook::add(Contact contact)
 {
-    contact.id = nextId_;
+    int assignedId = nextId_;
+    contact.id = assignedId;
     contacts_.push_back(contact);
     nextId_++;
-    return contact.id;
+    return assignedId;
 }
 
 Contact* ContactBook::findById(int id)
