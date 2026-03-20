@@ -33,6 +33,7 @@ bld/
 [Ll]ogs/
 build/
 build-*/
+ci-build*/
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
