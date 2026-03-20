@@ -4,7 +4,8 @@
 #include <string>
 #include <vector>
 
-struct Contact {
+struct Contact
+{
     int id;
     std::string name;
     unsigned int age;
@@ -13,14 +14,30 @@ struct Contact {
     bool isActive;
 };
 
-class ContactBook {
+enum class ContactFilter
+{
+    Active,
+    Inactive,
+    All
+};
+
+enum class DeactivateResult
+{
+    Success,
+    NotFound,
+    AlreadyInactive
+};
+
+class ContactBook
+{
 public:
     int add(Contact contact);
     Contact* findById(int id);
     const Contact* findById(int id) const;
     const std::vector<Contact>& all() const;
     bool updateContact(int id, const Contact& updatedContact);
-    bool deactivate(int id);
+    std::vector<Contact> getContacts(ContactFilter filter) const;
+    DeactivateResult deactivate(int id);
 
 private:
     std::vector<Contact> contacts_;
