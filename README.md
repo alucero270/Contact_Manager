@@ -1,222 +1,143 @@
 Contact Manager
+===============
 
-A small console-based C++ application for managing contact records through a menu-driven interface.
+Contact Manager is a small console-based C++ application for creating, viewing, editing, searching, and deactivating contacts from a menu-driven interface.
 
-This project was built to practice core software engineering concepts in C++, including:
+The project is intentionally simple. It focuses on foundational C++ structure rather than persistence or a large feature set:
 
-basic data modeling
-
-modular program structure
-
-input validation
-
-user-driven control flow
-
-separation of interface and implementation
-
+- small domain model
+- separate headers and source files
+- reusable input validation helpers
+- straightforward command-line interaction
 
 Features
+--------
 
-Add a new contact
-
-Display all saved contacts in a formatted table
-
-Search for a contact by ID
-
-Update a contact's balance
-
-Deactivate a contact without deleting the record
-
-Validate user input before accepting values
-
+- add a contact with an auto-assigned ID
+- display all contacts in a formatted table
+- search for a contact by ID
+- edit an existing contact's name, age, gender, or balance
+- deactivate a contact without deleting it
+- validate all user input before accepting it
 
 Data Model
+----------
 
-Each contact contains the following fields:
+Each contact stores:
 
-id — integer identifier
+- `id`: integer identifier assigned by the application
+- `name`: contact name
+- `age`: unsigned integer
+- `gender`: `M` or `F`
+- `balance`: floating-point account balance
+- `isActive`: active/inactive status flag
 
-name — contact name
+Persistence Approach
+--------------------
 
-age — unsigned integer
+Contacts are stored in memory inside `ContactBook` for the life of the process. There is currently no file or database persistence, so all data is lost when the program exits.
 
-gender — single-character value (M or F)
+Project Layout
+--------------
 
-balance — floating-point account balance
-
-isActive — status flag indicating whether the contact is active
-
-
-The application stores contacts in a fixed-size in-memory array with a maximum capacity of 100 records.
-
-Project Structure
-
+```text
 Contact_Manager/
-├── main.cpp
-├── ContactManager.h
-├── ContactManager.cpp
-├── InputHelper.h
-├── InputHelper.cpp
-├── Contact_Manager.sln
-├── Contact_Manager.vcxproj
+|-- include/
+|   |-- ContactBook.h
+|   |-- ContactMenu.h
+|   `-- InputHelper.h
+|-- src/
+|   |-- ContactBook.cpp
+|   |-- ContactMenu.cpp
+|   |-- InputHelper.cpp
+|   `-- main.cpp
+|-- CMakeLists.txt
+|-- Contact_Manager.sln
+`-- Contact_Manager.vcxproj
+```
 
-File Overview
+Core Design
+-----------
 
-main.cpp
-Entry point for the application. Initializes the contact array and launches the menu loop.
+- `ContactBook` owns the collection of contacts and the next generated ID.
+- `ContactMenu` handles user-facing workflows and menu control.
+- `InputHelper` centralizes validated console input so parsing logic is not duplicated across menu actions.
+- The application prefers simple, readable control flow over abstraction-heavy design.
 
-ContactManager.h
-Defines the Contact struct, max capacity constant, and function declarations.
+Build And Run
+-------------
 
-ContactManager.cpp
-Contains the application’s core logic:
+Visual Studio 2022
+------------------
 
-add contact
+These steps were verified by building the solution with MSBuild in `Release|x64` and running the produced executable.
 
-display contacts
+1. Open `Contact_Manager.sln` in Visual Studio 2022.
+2. Select the `Release` configuration and `x64` platform.
+3. Build the solution.
+4. Run with `Local Windows Debugger`, or launch `x64\Release\Contact_Manager.exe`.
 
-search by ID
+Command line equivalent:
 
-update balance
+```powershell
+$vsPath = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" `
+  -latest -products * -requires Microsoft.Component.MSBuild -property installationPath
+$msbuild = Join-Path $vsPath 'MSBuild\Current\Bin\MSBuild.exe'
+& $msbuild Contact_Manager.sln /t:Build /p:Configuration=Release /p:Platform=x64
+.\x64\Release\Contact_Manager.exe
+```
 
-deactivate contact
+CMake
+-----
 
-menu handling
+This path was also tested from the terminal:
 
+```powershell
+cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+.\build\contact_manager.exe
+```
 
-InputHelper.h / InputHelper.cpp
-Provides a templated input helper function used to validate user input and retry on invalid entries.
+Sample Session
+--------------
 
+The transcript below is based on a real run of the current executable:
 
-How It Works
+```text
+****************************************************
+*         Welcome to Contact Manager!              *
+*           1. Add Contact                         *
+*           2. Display Contacts                    *
+*           3. Search Contact by ID                *
+*           4. Edit Contact                        *
+*           5. Deactivate Contact                  *
+*           0. Exit                                *
+****************************************************
+Enter your choice: 1
+Enter Name: Alice Johnson
+Enter Age: 29
+Enter Gender (M/F): F
+Enter Balance: 125.50
+Contact added successfully! ID: 1
 
-The program starts by creating an in-memory array of contacts and passing it into a menu-driven command loop.
+Enter your choice: 2
+ID        Name                Age       Gender    Balance        Active
+1         Alice Johnson       29        F         125.5          Yes
 
-From the menu, the user can:
-
-1. add a contact
-
-
-2. display all contacts
-
-
-3. search for a contact by ID
-
-
-4. update an existing contact’s balance
-
-
-5. deactivate a contact
-
-
-6. exit the program
-
-
-
-Contacts are stored only for the duration of the program run. There is currently no file or database persistence.
-
-Build and Run
-
-Visual Studio
-
-This project currently uses a Visual Studio solution and project file.
-
-1. Open Contact_Manager.sln in Visual Studio
-
-
-2. Build the solution
-
-
-3. Run the application from the IDE
-
-
-
-Example Workflow
-
-1. Add Contact
-2. Display Contacts
-3. Search Contact by ID
-4. Update Balance
-5. Deactivate Contact
-0. Exit
-
-A typical session might include:
-
-creating a contact
-
-listing all contacts
-
-searching for one by ID
-
-updating the balance
-
-deactivating the contact when no longer needed
-
-
-Design Notes
-
-This project emphasizes a few foundational software engineering ideas:
-
-Separation of concerns
-Core contact-management logic is separated from input handling.
-
-Structured data representation
-Contact information is grouped into a single Contact struct.
-
-Input validation
-A templated helper function is used to centralize and simplify validated console input.
-
-Incremental modularization
-The project is split into headers and implementation files instead of placing all logic in main.cpp.
-
+Enter your choice: 0
+Exiting Contact Manager. Goodbye!
+```
 
 Current Limitations
+-------------------
 
-Uses a fixed-size array instead of a dynamic container
+- data is in-memory only
+- no duplicate-contact checks beyond generated IDs
+- no automated tests yet
+- the interface is console-only
 
-Data is stored in memory only and is lost when the program exits
+Repository Hygiene
+------------------
 
-Contact IDs are manually entered rather than automatically generated
-
-No edit-contact workflow beyond balance updates
-
-No duplicate-ID checking
-
-No automated tests
-
-No cross-platform build configuration yet
-
-
-Planned Improvements
-
-Potential next steps for the project:
-
-Generate unique IDs automatically
-
-Add full contact editing functionality
-
-Prevent duplicate IDs
-
-Replace the fixed-size array with std::vector
-
-Add save/load support using a file format such as CSV or JSON
-
-Add unit tests
-
-Add a CMake build configuration for portability
-
-
-Why This Project
-
-This project was created as a focused C++ exercise to reinforce:
-
-working with structs and arrays
-
-modular design using header and source files
-
-basic CLI application architecture
-
-reusable input validation patterns
-
-
-It also serves as a foundation that can be extended into a more robust contact system with persistence, testing, and modern container-based data management.
+- JetBrains Rider and other IDE-generated files are ignored through `.gitignore`.
+- The repository keeps source, build configuration, and workflow files only; generated build outputs should stay untracked.
