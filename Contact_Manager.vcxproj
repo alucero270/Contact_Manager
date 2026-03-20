@@ -288,7 +288,7 @@
     <Content Include="CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\InputHelper.cpp" />
+    <ClCompile Include="src\InputHelper.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
