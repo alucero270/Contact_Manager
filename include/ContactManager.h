@@ -13,7 +13,7 @@ struct Contact {
     bool isActive;
 };
 
-class ContactBook { //contact book owns identity rule
+class ContactBook { 
 public:
     int add(Contact contact);
     Contact* findById(int id);
