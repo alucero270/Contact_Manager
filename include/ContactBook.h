@@ -1,5 +1,5 @@
-#ifndef CONTACT_MANAGER_H
-#define CONTACT_MANAGER_H
+#ifndef CONTACT_BOOK_H
+#define CONTACT_BOOK_H
 
 #include <string>
 #include <vector>
@@ -13,20 +13,18 @@ struct Contact {
     bool isActive;
 };
 
-class ContactBook { 
+class ContactBook {
 public:
     int add(Contact contact);
     Contact* findById(int id);
     const Contact* findById(int id) const;
     const std::vector<Contact>& all() const;
-    bool updateBalance(int id, float newBalance);
+    bool updateContact(int id, const Contact& updatedContact);
     bool deactivate(int id);
+
 private:
     std::vector<Contact> contacts_;
     int nextId_ = 1;
 };
-
-// Function declarations
-void contactManagerMenu(ContactBook& book);
 
 #endif

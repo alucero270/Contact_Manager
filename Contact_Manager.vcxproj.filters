@@ -15,24 +15,33 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\ContactBook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ContactManager.cpp">
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ContactMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ContactManager.h">
+    <ClInclude Include="include\ContactBook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InputHelper.h">
+    <ClInclude Include="include\ContactMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\InputHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="InputHelper.cpp">
+    <Content Include="CMakeLists.txt">
       <Filter>Source Files</Filter>
-    </None>
+    </Content>
   </ItemGroup>
 </Project>
