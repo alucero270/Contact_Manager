@@ -1,7 +1,7 @@
-#include "../include/ContactManager.h"
+#include "ContactMenu.h"
 
 int main() {
     ContactBook book;
-    contactManagerMenu(book);
+    contactMenu(book);
     return 0;
 }
