@@ -14,7 +14,7 @@ Features
 --------
 
 - add a contact with an auto-assigned ID
-- display all contacts in a formatted table
+- display active contacts by default, with explicit views for all or inactive contacts
 - search for a contact by ID
 - edit an existing contact's name, age, gender, or balance
 - deactivate a contact without deleting it
@@ -31,6 +31,17 @@ Each contact stores:
 - `gender`: `M` or `F`
 - `balance`: floating-point account balance
 - `isActive`: active/inactive status flag
+
+Soft-Delete Behavior
+--------------------
+
+Deactivation is implemented as a soft delete:
+
+- deactivated contacts remain in memory
+- default listing shows active contacts only
+- the menu includes an explicit view for all contacts or inactive contacts
+- search by ID still finds inactive contacts and shows their active status
+- editing by ID is still allowed for inactive contacts
 
 Persistence Approach
 --------------------
@@ -107,10 +118,11 @@ The transcript below is based on a real run of the current executable:
 ****************************************************
 *         Welcome to Contact Manager!              *
 *           1. Add Contact                         *
-*           2. Display Contacts                    *
+*           2. Display Active Contacts             *
 *           3. Search Contact by ID                *
 *           4. Edit Contact                        *
 *           5. Deactivate Contact                  *
+*           6. View All/Inactive Contacts          *
 *           0. Exit                                *
 ****************************************************
 Enter your choice: 1

@@ -38,6 +38,29 @@ const std::vector<Contact>& ContactBook::all() const
     return contacts_;
 }
 
+std::vector<Contact> ContactBook::getContacts(ContactFilter filter) const
+{
+    std::vector<Contact> filteredContacts;
+
+    for (const Contact& contact : contacts_)
+    {
+        if (filter == ContactFilter::All)
+        {
+            filteredContacts.push_back(contact);
+        }
+        else if (filter == ContactFilter::Active && contact.isActive)
+        {
+            filteredContacts.push_back(contact);
+        }
+        else if (filter == ContactFilter::Inactive && !contact.isActive)
+        {
+            filteredContacts.push_back(contact);
+        }
+    }
+
+    return filteredContacts;
+}
+
 bool ContactBook::updateContact(int id, const Contact& updatedContact)
 {
     Contact* contact = findById(id);
@@ -54,14 +77,19 @@ bool ContactBook::updateContact(int id, const Contact& updatedContact)
     return true;
 }
 
-bool ContactBook::deactivate(int id)
+DeactivateResult ContactBook::deactivate(int id)
 {
     Contact* contact = findById(id);
     if (contact == nullptr)
     {
-        return false;
+        return DeactivateResult::NotFound;
+    }
+    
+    if (!contact->isActive)
+    {
+        return DeactivateResult::AlreadyInactive;
     }
 
     contact->isActive = false;
-    return true;
+    return DeactivateResult::Success;
 }
